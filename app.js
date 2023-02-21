@@ -2,19 +2,25 @@ const express = require("express");
 const cors = require("cors");
 
 const contactRouter = require("./app/routes/contact.route")
+const authRouter = require("./app/routes/auth.route");
 const ApiError = require("./app/api-error");
+
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
 
+const PRODUCT_DATA_FILE = path.join(__dirname, "server-product-data.json");
+const CART_DATA_FILE = path.join(__dirname, "server-cart-data.json"); 
+
 app.use(cors());
 app.use(express.json());
-
 
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to contact book application." });
 });
 app.use("/api/contacts", contactRouter);
-
+app.use("/api/auth", authRouter);
 // handle 404 respone
 app.use((req, res, next) => {
     //Code ở đây sẽ chạy khi không có route được định nghĩa nào
